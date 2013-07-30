@@ -1,0 +1,19 @@
+description "dnslbd"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+expect daemon
+
+script
+    ENABLE_DNSLB="yes"
+    DNSLB_DIR=/opt/dnslb
+    DNSLB_VENV=/opt/dnslb
+    DNSLB_ARGS="-z example.com -c example.com.yaml"
+    test -f /etc/default/dnslb && . /etc/default/dnslb
+    if [ "x$ENABLE_DNSLB" = "xyes" ]; then
+        . ${DNSLB_VENV}/bin/activate
+        exec start-stop-daemon --chdir $DNSLB_DIR --name dnslb --start --startas ${DNSLB_VENV}/bin/dnslb -- $DNSLB_ARGS
+    else:
+        echo "dnslb disabled - enable it in /etc/default/dnslb"
+    fi
+end script

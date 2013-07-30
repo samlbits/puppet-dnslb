@@ -1,0 +1,4 @@
+ENABLE_DNSLB=yes
+DNSLB_DIR=<%= dir %>
+DNSLB_VENV=<%= venv %>
+DNSLB_ARGS="--log syslog:daemon -z <%= domain %> -c <%= domain %>.yaml"
