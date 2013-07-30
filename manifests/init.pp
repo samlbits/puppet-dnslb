@@ -10,7 +10,6 @@ class dnslb ($dir = '/opt/dnslb', $zone = 'example.com.json',$config = 'example.
     virtualenv => true,
     gunicorn   => false,
   }
-  Package['libyaml-dev'] -> Class['python']
   python::virtualenv { $dir:
     ensure => present
   }
