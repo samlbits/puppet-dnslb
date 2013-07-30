@@ -38,6 +38,6 @@ class dnslb ($dir = '/opt/dnslb', $zone = 'example.com.json',$config = 'example.
     require   => [File['dnslb-upstart'],File['dnslb-defaults'],File['dnslb-config']],
   }
   File['dnslb-config'] -> Service['dnslb']
-  File['dnslb-defaults] -> Service['dnslb']
-  File['dnslb-upstart] -> Service['dnslb']
+  File['dnslb-defaults'] -> Service['dnslb']
+  File['dnslb-upstart'] -> Service['dnslb']
 }
