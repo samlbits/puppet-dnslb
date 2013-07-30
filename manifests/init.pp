@@ -1,7 +1,12 @@
-class dnslb ($venv = '/opt/dnslb', $dir = '/opt/dnslb',$domain = 'example.com') {
+class dnslb ($dir = '/opt/dnslb', $zone = 'example.com.json',$config = 'example.com.yaml') {
   package {'build-essential': ensure => installed}
   package {'libyaml-dev': ensure => installed}
   Package['build-essential'] -> Package['libyaml-dev']
+  file { 'dnslb-config':
+    path => $config,
+    ensure => present,
+    notify => Service['dnslb']
+  } 
   class { 'python':
     version    => 'system',
     dev        => true,
@@ -9,11 +14,11 @@ class dnslb ($venv = '/opt/dnslb', $dir = '/opt/dnslb',$domain = 'example.com') 
     gunicorn   => false,
   }
   Package['libyaml-dev'] -> Class['python']
-  python::virtualenv { $venv:
+  python::virtualenv { $dir:
     ensure => present
   }
   python::pip { 'python-dnslb':
-    virtualenv => $venv
+    virtualenv => $dir
   }
   file {'dnslb-upstart':
     ensure    => file,
@@ -28,13 +33,9 @@ class dnslb ($venv = '/opt/dnslb', $dir = '/opt/dnslb',$domain = 'example.com') 
     replace   => false,
     notify    => Service['dnslb']
   }
-  file { "dnslb-config":
-    path => "$dir/$domain.yaml",
-    ensure => exists
-  }
   service {'dnslb':
     ensure    => 'running',
-    require   => [File['dnslb-upstart'],File['dnslb-defaults'],File['dnslb-config']]
+    require   => [File['dnslb-upstart'],File['dnslb-defaults'],File['dnslb-config']],
   }
   File['dnslb-config'] -> Service['dnslb']
   File['dnslb-defaults] -> Service['dnslb']
