@@ -1,7 +1,4 @@
 class dnslb ($dir = '/opt/dnslb', $zone = 'example.com.json',$config = 'example.com.yaml') {
-  package {'build-essential': ensure => installed}
-  package {'libyaml-dev': ensure => installed}
-  Package['build-essential'] -> Package['libyaml-dev']
   file { 'dnslb-config':
     path => $config,
     ensure => present,
