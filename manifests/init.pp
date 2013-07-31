@@ -1,6 +1,6 @@
 class dnslb ($dir = '/opt/dnslb', $zone = 'example.com.json',$config = 'example.com.yaml') {
   file { 'dnslb-config':
-    path => $config,
+    path   => $config,
     ensure => present,
     notify => Service['dnslb']
   } 
@@ -33,7 +33,6 @@ class dnslb ($dir = '/opt/dnslb', $zone = 'example.com.json',$config = 'example.
     ensure    => 'running',
     require   => [File['dnslb-upstart'],File['dnslb-defaults'],File['dnslb-config']],
   }
-  File['dnslb-config'] -> Service['dnslb']
   File['dnslb-defaults'] -> Service['dnslb']
   File['dnslb-upstart'] -> Service['dnslb']
 }
