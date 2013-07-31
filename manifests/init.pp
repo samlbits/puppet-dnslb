@@ -26,7 +26,7 @@ class dnslb ($dir = '/opt/dnslb', $zone = 'example.com.json',$config = 'example.
   }
   service {'dnslb':
     ensure    => 'running',
-    require   => [File['dnslb-upstart'],File['dnslb-defaults'],File['dnslb-config']],
+    require   => [File['dnslb-upstart'],File['dnslb-defaults']]
   }
   File['dnslb-defaults'] -> Service['dnslb']
   File['dnslb-upstart'] -> Service['dnslb']
