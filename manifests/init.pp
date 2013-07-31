@@ -8,6 +8,9 @@ class dnslb ($dir = '/opt/dnslb', $zone = 'example.com.json',$config = 'example.
   python::virtualenv { $dir:
     ensure => present
   }
+  python::pip { 'xmpppy':
+    virtualenv => $dir
+  }
   python::pip { 'python-dnslb':
     virtualenv => $dir
   }
