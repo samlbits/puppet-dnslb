@@ -10,7 +10,7 @@ class dnslb ($dir = '/opt/dnslb', $zone = 'example.com.json',$config = 'example.
   }
   python::pip { 'python-dnslb':
     virtualenv => $dir,
-    ensure     => latest
+    ensure     => installed
   }
   file {'dnslb-upstart':
     ensure    => file,
