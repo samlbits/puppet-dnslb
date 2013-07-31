@@ -1,9 +1,4 @@
 class dnslb ($dir = '/opt/dnslb', $zone = 'example.com.json',$config = 'example.com.yaml') {
-  file { 'dnslb-config':
-    path   => $config,
-    ensure => present,
-    notify => Service['dnslb']
-  } 
   class { 'python':
     version    => 'system',
     dev        => true,
