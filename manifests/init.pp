@@ -15,7 +15,8 @@ class dnslb ($dir = '/opt/dnslb', $version = undef, $zone = 'example.com.json',$
   }
   python::pip { "python-dnslb${ver}":
     ensure     => present,
-    virtualenv => $dir
+    virtualenv => $dir,
+    notify     => Service['dnslb']
   }
   file {'dnslb-upstart':
     ensure    => file,
