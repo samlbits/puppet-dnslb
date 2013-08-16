@@ -28,7 +28,7 @@ class dnslb ($dir = '/opt/dnslb', $version = undef, $zone = 'example.com.json',$
     ensure    => file,
     path      => '/etc/default/dnslb',
     content   => template('dnslb/dnslb-defaults.erb'),
-    replace   => false,
+    replace   => true,
     notify    => Service['dnslb']
   }
   service {'dnslb':
