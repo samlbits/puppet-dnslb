@@ -1,4 +1,4 @@
-class dnslb ($dir = '/opt/dnslb', $zone = 'example.com.json',$config = 'example.com.yaml') {
+class dnslb ($dir = '/opt/dnslb', $version = undef, $zone = 'example.com.json',$config = 'example.com.yaml') {
   class { 'python':
     version    => 'system',
     dev        => true,
@@ -8,9 +8,14 @@ class dnslb ($dir = '/opt/dnslb', $zone = 'example.com.json',$config = 'example.
   python::virtualenv { $dir:
     ensure => present
   }
-  python::pip { 'python-dnslb':
-    virtualenv => $dir,
-    ensure     => present
+  $ver = $version ? {
+    undef     => '',
+    /[0-9]/   => "==${version}",
+    default   => ''
+  }
+  python::pip { "python-dnslb${ver}":
+    ensure     => present,
+    virtualenv => $dir
   }
   file {'dnslb-upstart':
     ensure    => file,
