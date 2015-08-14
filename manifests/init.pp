@@ -14,6 +14,7 @@ class dnslb ($dir = '/opt/dnslb', $version = undef, $zone = 'example.com.json',$
     default   => ''
   }
   python::pip { "python-dnslb${ver}":
+    pkgname    => "dnslb",
     ensure     => present,
     virtualenv => $dir,
     notify     => Service['dnslb']
